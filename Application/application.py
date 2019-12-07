@@ -4,7 +4,7 @@
 # In[4]:
 
 
-import Return_Dataframes as rd
+# import Return_Dataframes as rd
 
 
 # In[5]:
@@ -18,6 +18,7 @@ import Functions as fn
 
 import dash
 from dash.dependencies import Input, Output, State
+import dash_html_components as html
 import dash_core_components as dcc
 import plotly.graph_objs as go
 
@@ -44,28 +45,28 @@ tab_selected_style = {'borderTop': '1px solid #d6d6d6','borderBottom': '1px soli
 # In[ ]:
 
 
-sentiment_data_on_load = rd.return_sentiment_df()
+sentiment_data_on_load = pd.read_csv("sentiment.csv")
 unique_sentiment_search_terms = fn.return_unique_searched_terms(sentiment_data_on_load['sentiment_id'])
 
 
 # In[ ]:
 
 
-graph_data_on_load = rd.return_graph_df().sample(frac=1).tail(1000)
+graph_data_on_load = pd.read_csv("graph.csv")
 unique_graph_search_terms = fn.return_unique_searched_terms(graph_data_on_load['graph_id'])
 
 
 # In[ ]:
 
 
-word_data_on_load = rd.return_word_df()
+word_data_on_load = pd.read_csv("word.csv")
 unique_word_search_terms = fn.return_unique_searched_terms(word_data_on_load['word_id'])
 
 
 # In[ ]:
 
 
-hashtag_data_on_load = rd.return_hashtag_df()
+hashtag_data_on_load = pd.read_csv("hashtag.csv", lineterminator='\n')
 unique_hashtag_search_terms = fn.return_unique_searched_terms(hashtag_data_on_load['hashtag_id'])
 
 
@@ -211,7 +212,7 @@ def create_interaction_graph(graph_df, unique_graph_search_terms, graph_term = N
         
     for node, adjacencies in enumerate(G.adjacency()):
         node_trace['marker']['color']+=tuple([len(adjacencies[1])])
-        node_info = adjacencies[0] +' # of connections: '+str(len(adjacencies[1]))
+        node_info = str(adjacencies[0]) +' # of connections: '+str(len(adjacencies[1]))
         node_trace['text']+=tuple([node_info])
         
     return {
@@ -423,7 +424,6 @@ application = app.server
 
 # In[ ]:
 
-
 app.layout = html.Div(
     style={"backgroundColor": colors["main_background"]},
     children=[
@@ -498,9 +498,10 @@ app.layout = html.Div(
                                         style ={
                                             "padding": "0.5rem",
                                             
-                                            "height": "100vh",
+                                            "height": "50vh",
                                         },
-                                    ),
+                                    ),      
+                                ],style={"display": "inline-block", 'width': '50%'}),
                                 html.Div([
                                     dcc.Graph(
                                         id="source",
@@ -509,7 +510,7 @@ app.layout = html.Div(
                                                                           [unique_hashtag_search_terms[0]]),
                                         style ={
                                             "padding": "0.5rem",
-                                            "height": "100vh",
+                                            "height": "50vh",
                                         },
                                     )
                                     ],style={"display": "inline-block", 'width': '50%'},
@@ -527,14 +528,13 @@ app.layout = html.Div(
                                         style ={
                                             "padding": "0.5rem",
                                             
-                                            "height": "100vh",
+                                            "height": "50vh",
                                         },
                                     )
                                     ],style={"display": "inline-block", 'width': '50%'},
                                 ), 
                                     
-                                    ],style={"display": "inline-block", 'width': '50%'},
-                                ), 
+                            
                                 html.Div([
                                     dcc.Graph(
                                         id="mentioned_users",
@@ -543,7 +543,7 @@ app.layout = html.Div(
                                                                           [unique_graph_search_terms[0]]),
                                         style ={
                                             "padding": "0.5rem",
-                                            "height": "100vh",
+                                            "height": "50vh",
                                         },
                                     )
                                     ],style={"display": "inline-block", 'width': '50%'},
@@ -698,7 +698,6 @@ app.layout = html.Div(
                 }),
             ]),
         ])
-
 
 # In[ ]:
 

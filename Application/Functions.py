@@ -11,11 +11,6 @@ import pandas as pd
 import collections
 import re
 
-import nltk
-from nltk.corpus import stopwords
-# nltk.download('stopwords')
-
-
 # In[2]:
 
 
@@ -141,8 +136,29 @@ def return_word_frequency(data):
     cleaned_text = [text.lower().split(' ') for text in no_url_text]
     flattened_list = [item for sublist in cleaned_text for item in sublist]
     
-    stop_words = list(set(stopwords.words('english')))
-    stop_words.append('rt')
+    stop_words = ["you'll", 'so', 'yours', 'couldn', 'll', 'him', 'being', 'should',
+    'their', 'into', 'what', 'as', "don't", 'nor', 'won', 'its',
+    'have', 'again', 'hasn', 'be', 'between', 'of', 'whom', 'own', 'i',
+    'over', 'yourselves', 'until', 'not', 'hadn', "that'll", 'for',
+    "weren't", 'against', 'is', 'didn', 'in', 'same', "hadn't",
+    "mustn't", 'after', "she's", 'the', 'are', 'very', 'do', 'other',
+    'she', "isn't", 'more', 'because', 'ours', 'about', 'some', 'was',
+    'been', 'that', 'm', 'there', 'when', 'such', 'off', 't',
+    'themselves', "couldn't", 'to', 'did', 'here', 'under', 'or', 'o',
+    'through', 'only', 'wasn', "haven't", 'mustn', 'yourself', "you'd",
+    's', 'few', 'his', 'below', 'herself', 'theirs', 'how', "didn't",
+    'they', "hasn't", 'doing', 'above', 'at', 'a', 'an', 'shan', 're',
+    'am', 'having', 'had', 'where', 'will', 'we', 'who', 'haven',
+    'out', 'up', 'now', "aren't", 'our', 'each', 'myself', 'them',
+    'and', 'it', "it's", 'from', 'ma', "you've", 'shouldn', 'both',
+    'needn', 'has', 'mightn', 'on', 'hers', 'once', 'any', 'can',
+    "mightn't", 'those', 'ain', 'weren', 'does', 'down', 'y', 'but',
+    'he', 'wouldn', 'himself', 'then', "wouldn't", 'me', 'you',
+    'itself', "doesn't", 'which', 'while', 've', 'your', 'most', 'my',
+    'by', 'were', 'these', 'if', "won't", 'before', 'ourselves',
+    'than', 'isn', "wasn't", 'doesn', 'too', "needn't", 'her', 'why',
+    "you're", 'just', 'aren', 'further', "should've", "shan't", 'don',
+    'with', 'all', 'no', 'during', 'd', 'this', "shouldn't", 'rt']
     
     remove_stopwords = [word for word in flattened_list if not word in stop_words]
              
